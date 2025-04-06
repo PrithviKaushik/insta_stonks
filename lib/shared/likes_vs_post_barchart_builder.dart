@@ -37,8 +37,9 @@ Widget buildBarChart(List<Post> posts) {
               interval: interval,
               reservedSize: 50,
               getTitlesWidget: (value, _) {
-                if (value == 0)
+                if (value == 0) {
                   return const Text('0', style: TextStyle(fontSize: 10));
+                }
                 if (value >= 1000000) {
                   return Text(
                     '${(value / 1000000).toStringAsFixed(1)}M',
@@ -84,8 +85,7 @@ Widget buildBarChart(List<Post> posts) {
           horizontalInterval: interval,
           drawVerticalLine: false,
           getDrawingHorizontalLine:
-              (value) =>
-                  FlLine(color: Colors.grey.withOpacity(0.2), strokeWidth: 1),
+              (value) => FlLine(color: Colors.grey, strokeWidth: 1),
         ),
         borderData: FlBorderData(show: false),
         barGroups:

@@ -1,4 +1,3 @@
-import 'package:insta_stonks/screens/analytics_screen.dart';
 import 'package:insta_stonks/screens/screens.dart';
 
 var appRoutes = {
