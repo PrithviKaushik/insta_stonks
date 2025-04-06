@@ -38,18 +38,25 @@ class DashboardScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       ClipOval(
-                        child: Image.network(
-                          '$profilePicUrlHd@2x.png',
-                          width: 60,
-                          height: 60,
-                          fit: BoxFit.cover,
-                          errorBuilder:
-                              (context, error, stackTrace) => Icon(
-                                Icons.account_circle,
-                                size: 60,
-                                color: Colors.grey.shade400,
-                              ),
-                        ),
+                        child:
+                            profilePicUrlHd != null
+                                ? Image.network(
+                                  '${profilePicUrlHd}@2x.png',
+                                  width: 60,
+                                  height: 60,
+                                  fit: BoxFit.cover,
+                                  errorBuilder:
+                                      (context, error, stackTrace) => Icon(
+                                        Icons.account_circle,
+                                        size: 60,
+                                        color: Colors.grey.shade400,
+                                      ),
+                                )
+                                : Icon(
+                                  Icons.account_circle,
+                                  size: 60,
+                                  color: Colors.grey.shade400,
+                                ),
                       ),
                       const SizedBox(width: 16),
                       Expanded(
@@ -57,7 +64,7 @@ class DashboardScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '@$username',
+                              '@${username ?? 'Unknown'}',
                               style: Theme.of(
                                 context,
                               ).textTheme.titleMedium?.copyWith(

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:insta_stonks/models/models.dart'; // Replace with actual path to Post model
-import 'package:insta_stonks/services/services.dart'; // Replace with actual path to fetchPosts function
-import 'package:insta_stonks/shared/shared.dart'; // Replace with actual path to buildBarChart widget
+import 'package:insta_stonks/models/models.dart';
+import 'package:insta_stonks/services/services.dart';
+import 'package:insta_stonks/services/fetch_posts_service.dart';
+import 'package:insta_stonks/shared/shared.dart';
 
-// A screen that shows a bar chart of likes for each post of a given user
 class PostChartScreen extends StatefulWidget {
   final String username;
 
-  // Constructor expects the username to fetch data for
   const PostChartScreen({super.key, required this.username});
 
   @override
@@ -15,13 +14,34 @@ class PostChartScreen extends StatefulWidget {
 }
 
 class _PostChartScreenState extends State<PostChartScreen> {
-  late Future<List<Post>> _postsFuture; // Holds the future that fetches posts
+  late Future<List<Post>> _postsFuture;
+  bool _isLoading = false;
+  String? _errorMessage;
 
   @override
   void initState() {
     super.initState();
-    // Fetch the posts using the given username when the widget is first built
-    _postsFuture = fetchPosts(widget.username);
+    _fetchData();
+  }
+
+  Future<void> _fetchData() async {
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+
+    try {
+      _postsFuture = ApiService.fetchPosts(widget.username);
+      await _postsFuture; // Wait for the future to complete to catch any errors
+    } catch (e) {
+      setState(() {
+        _errorMessage = e.toString();
+      });
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
@@ -33,30 +53,62 @@ class _PostChartScreenState extends State<PostChartScreen> {
           style: TextStyle(color: Theme.of(context).colorScheme.primary),
         ),
         centerTitle: false,
+        actions: [IconButton(icon: Icon(Icons.refresh), onPressed: _fetchData)],
       ),
+      body:
+          _isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : _errorMessage != null
+              ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Error: $_errorMessage'),
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: _fetchData,
+                      child: const Text('Try Again'),
+                    ),
+                  ],
+                ),
+              )
+              : FutureBuilder<List<Post>>(
+                future: _postsFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
 
-      // FutureBuilder will wait for the API data and rebuild the UI accordingly
-      body: FutureBuilder<List<Post>>(
-        future: _postsFuture,
-        builder: (context, snapshot) {
-          // While the data is loading, show a loading spinner
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          }
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('Error: ${snapshot.error}'),
+                          const SizedBox(height: 16),
+                          ElevatedButton(
+                            onPressed: _fetchData,
+                            child: const Text('Try Again'),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
 
-          // If an error occurs while fetching the data, show error message
-          if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          }
+                  final posts = snapshot.data!;
 
-          // If data is successfully fetched, render the bar chart
-          final posts = snapshot.data!;
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: buildBarChart(posts), // Chart widget that shows likes/post
-          );
-        },
-      ),
+                  if (posts.isEmpty) {
+                    return const Center(
+                      child: Text('No posts found for this username'),
+                    );
+                  }
+
+                  return Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: buildBarChart(posts),
+                  );
+                },
+              ),
     );
   }
 }

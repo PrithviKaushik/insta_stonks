@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:insta_stonks/shared/day_selector.dart';
 import 'package:insta_stonks/shared/left_drawer.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:intl/intl.dart';
 
 class AnalyticsScreen extends StatefulWidget {
   const AnalyticsScreen({super.key});
@@ -22,9 +23,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
       _isLoading = true; // Show loading indicator
     });
 
-    // Simulate data fetching (can be replaced with actual async code)
-    await Future.delayed(const Duration(seconds: 2)); // Simulating async call
-
+    // Data is already fetched in DaySelector, so we can use it directly
     setState(() {
       _likesByHour = likes;
       _selectedDay = day;
@@ -111,7 +110,17 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
 
     return LineChartData(
       titlesData: FlTitlesData(
-        leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: true)),
+        leftTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            getTitlesWidget: (value, meta) {
+              // Format large numbers with k suffix
+              final formatter = NumberFormat.compact();
+              return Text(formatter.format(value));
+            },
+            reservedSize: 40,
+          ),
+        ),
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
@@ -123,6 +132,8 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                 ),
           ),
         ),
+        topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+        rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
       ),
       borderData: FlBorderData(
         show: true,
@@ -143,7 +154,10 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
           isCurved: true,
           color: Theme.of(context).colorScheme.primary,
           dotData: FlDotData(show: true),
-          belowBarData: BarAreaData(show: false),
+          belowBarData: BarAreaData(
+            show: true,
+            color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+          ),
         ),
       ],
     );

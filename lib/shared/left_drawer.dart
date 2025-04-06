@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:insta_stonks/shared/drawer_web_view.dart';
 import 'package:provider/provider.dart';
-
 import '../providers/providers.dart';
 
 class LeftDrawer extends StatelessWidget {
@@ -9,14 +9,14 @@ class LeftDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
+
     return Drawer(
       backgroundColor: Theme.of(context).colorScheme.surface,
       child: ListView(
-        padding: EdgeInsets.zero, // Remove default padding.
+        padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
             decoration: BoxDecoration(
-              // Use a primary container color for the header background.
               color: Theme.of(context).colorScheme.primaryContainer,
             ),
             child: Column(
@@ -37,11 +37,29 @@ class LeftDrawer extends StatelessWidget {
                     color: Theme.of(context).colorScheme.onPrimaryContainer,
                   ),
                 ),
-                const SizedBox(height: 16),
               ],
             ),
           ),
 
+          // Creator Assistant Button
+          ListTile(
+            leading: Icon(
+              Icons.assistant,
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
+            title: Text(
+              'Creator Assistant',
+              style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+            ),
+            onTap: () {
+              Navigator.of(context).pop(); // Close the drawer
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const WebViewScreen()),
+              );
+            },
+          ),
+
+          // Sign Out Button
           ListTile(
             leading: Icon(
               Icons.logout,

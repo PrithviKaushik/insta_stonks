@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:fl_chart/fl_chart.dart'; // Import the fl_chart package
-import 'package:intl/intl.dart'; // Import the intl package for number formatting
 
 class DaySelector extends StatefulWidget {
   final Function(String, List<double>) onDaySelected;
@@ -20,106 +18,40 @@ class _DaySelectorState extends State<DaySelector> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children:
-                _days.map((day) {
-                  final isSelected = _selectedDay == day;
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                    child: GestureDetector(
-                      onTap: () => _selectDay(day),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 8,
-                        ),
-                        decoration: BoxDecoration(
-                          color:
-                              isSelected
-                                  ? Theme.of(context).colorScheme.primary
-                                  : Colors.grey[200],
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Text(
-                          day,
-                          style: TextStyle(
-                            color: isSelected ? Colors.white : Colors.black,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children:
+            _days.map((day) {
+              final isSelected = _selectedDay == day;
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                child: GestureDetector(
+                  onTap: () => _selectDay(day),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      color:
+                          isSelected
+                              ? Theme.of(context).colorScheme.primary
+                              : Colors.grey[200],
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      day,
+                      style: TextStyle(
+                        color: isSelected ? Colors.white : Colors.black,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
-                  );
-                }).toList(),
-          ),
-        ),
-        if (_estimatedLikesList.isNotEmpty)
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: LineChart(
-              LineChartData(
-                gridData: FlGridData(show: true),
-                titlesData: FlTitlesData(
-                  leftTitles: AxisTitles(
-                    sideTitles: SideTitles(
-                      showTitles: true,
-                      getTitlesWidget:
-                          (value, meta) => Text(_getLeftTitles(value)),
-                      reservedSize: 40, // Space reserved for the left titles
-                    ),
-                  ),
-                  bottomTitles: AxisTitles(
-                    sideTitles: SideTitles(
-                      showTitles: true,
-                      getTitlesWidget:
-                          (value, meta) => Text(_getBottomTitles(value)),
-                      reservedSize: 30, // Space reserved for the bottom titles
-                    ),
-                  ),
-                  topTitles: AxisTitles(
-                    sideTitles: SideTitles(
-                      showTitles: false,
-                    ), // Hide the top titles
-                  ),
-                  rightTitles: AxisTitles(
-                    sideTitles: SideTitles(
-                      showTitles: false,
-                    ), // Hide the right titles
                   ),
                 ),
-                borderData: FlBorderData(
-                  show: true,
-                  border: Border.all(color: Colors.black26, width: 1),
-                ),
-                lineBarsData: [
-                  LineChartBarData(
-                    spots:
-                        _estimatedLikesList
-                            .asMap()
-                            .map(
-                              (index, value) => MapEntry(
-                                index.toDouble(),
-                                FlSpot(index.toDouble(), value),
-                              ),
-                            )
-                            .values
-                            .toList(),
-                    isCurved: true,
-                    color: Theme.of(context).primaryColor, // Line color
-                    belowBarData: BarAreaData(
-                      show: true,
-                      color: Colors.blue, // Area below the line
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-      ],
+              );
+            }).toList(),
+      ),
     );
   }
 
@@ -204,16 +136,5 @@ class _DaySelectorState extends State<DaySelector> {
       'Sun': 'Sunday',
     };
     return dayMap[code] ?? code;
-  }
-
-  // Formatter for the Y-axis (likes in 'k' format)
-  String _getLeftTitles(double value) {
-    final numberFormat = NumberFormat.compact(); // '20k' format
-    return numberFormat.format(value);
-  }
-
-  // Formatter for the X-axis (hours from 0 to 23)
-  String _getBottomTitles(double value) {
-    return value.toInt().toString(); // Display hours as 0 to 23
   }
 }
