@@ -1,16 +1,17 @@
-# insta_stonks
+📱 Viralyze – Smarter Social Media Management App
+Viralyze is a smart social media analytics and content assistant that helps creators and businesses optimize their Instagram strategy using data-driven insights and automation.
 
-A new Flutter project.
+WATCH DEMO: https://youtube.com/shorts/hcz_DhnniUY?si=AZvNviVjVs89zV4y 
+  
+🚀 Features:
+📊 Engagement Analytics
+Understand how your posts perform with clean visual charts and stats.
 
-## Getting Started
+⏰ Best Time to Post
+Let data guide you—post when your audience is most active.
 
-This project is a starting point for a Flutter application.
+✍️ Auto Caption & Hashtag Generator
+Say goodbye to caption block! Get engaging, on-brand captions and hashtags in seconds.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+🧠 Comment Sentiment Analysis (Coming Soon)
+Get a mood check of your audience based on comment sentiment.
