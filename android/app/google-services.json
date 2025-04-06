@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "392192827788",
+    "project_id": "insta-stonks",
+    "storage_bucket": "insta-stonks.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:392192827788:android:4d494c44770e5d5ab7b6a9",
+        "android_client_info": {
+          "package_name": "com.example.insta_stonks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "392192827788-9slu1aaavulb4lelc8nku3j8qksbbm14.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.insta_stonks",
+            "certificate_hash": "cfe5f06279a9d7fbef6330e79cec4253dc97bcd6"
+          }
+        },
+        {
+          "client_id": "392192827788-8qedsh1kjbmjafcguluvl0d3pnh3s4qq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAigbb0B96Ryj92fe41ME17zoGYcAtOTao"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "392192827788-8qedsh1kjbmjafcguluvl0d3pnh3s4qq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "392192827788-h1sf8eq5oss1843umiin77e3osde612m.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.instaStonks"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

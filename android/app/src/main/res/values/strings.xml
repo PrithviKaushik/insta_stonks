@@ -1,0 +1,9 @@
+<resources>
+    <string name="facebook_app_id">1732426130991475</string>
+    <string name="fb_login_protocol_scheme">fb1732426130991475</string>
+    <string name="fb_client_token">91f1d1ee2ede05fbb0269a782250c42c</string>
+    <string name="facebook_client_token">91f1d1ee2ede05fbb0269a782250c42c</string>
+    <string name="app_name">Viralyze</string>
+</resources>
+
+
